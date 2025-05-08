@@ -38,11 +38,13 @@ const submitForm = async () => {
 
 const masukan = ref([]);
 const countSaran = ref();
+const countConfess = ref();
 
 const getMasukan = async () => {
     const responsei = await getSaran()
     masukan.value = responsei.rows;
     countSaran.value = responsei.countTotalSaran;
+    countConfess.value = responsei.countConfessTotal;
 };
 
 
@@ -100,12 +102,13 @@ onMounted(() => {
         <div class="flex flex-col md:flex-row justify-between items-center mb-8">
             <div>
                 <h1 class="text-3xl font-bold mb-2">Web Whatsapp IFD Class</h1>
-                <div class="flex items-center">
+                <div class="flex flex-col">
                     <p class="mr-3">Status BOT:
                         <span class="text-white font-semibold px-2 py-1 rounded-md" :class="statbot ? 'bg-green-500' : 'bg-red-500'">
                   {{ statbot ? 'ON' : 'OFF' }}
                 </span>
                     </p>
+                    <p>Total Penggunaan Applikasi : <span class="text-white font-semibold px-2 py-1 rounded-md bg-green-500">{{ countConfess + countSaran + 90 }}</span></p>
                 </div>
             </div>
             <div class="flex space-x-4 mt-4 md:mt-0">
@@ -132,7 +135,8 @@ onMounted(() => {
                     <span class="bg-gradient-to-r from-amber-500 to-green-500 bg-clip-text text-transparent">List Saran</span>
                     <div class="absolute w-full h-1 bg-gradient-to-r from-amber-500 to-green-500 bottom-0 left-0 rounded-full"></div>
                 </h2>
-                <p class="text-gray-600 max-w-2xl mx-auto">Berikut adalah saran dan masukan untuk aplikasi gabut ini</p>
+                <p class="text-gray-600 max-w-2xl mx-auto">Berikut adalah saran dan masukan untuk aplikasi ini.
+                </p>
             </div>
             <p class="text-gray-600 max-w-2xl text-start mx-auto">Total Semua Saran: {{ countSaran }}/15</p>
     

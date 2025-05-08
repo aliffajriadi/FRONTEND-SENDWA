@@ -1,104 +1,163 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue'
+import { getSaran, kirimConfess } from '../composables'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
+import Notif from '../components/Notif.vue';
 
-// Modal state
-const showModal = ref(true);
+const selectedName = ref(null)
+const currentCount = ref(0)
+const targetCount = ref(0)
 
-// Tanggal target untuk countdown (contoh: 30 hari dari sekarang)
-const targetDate = new Date();
-targetDate.setDate(targetDate.getDate() + 1);
-
-// Format tanggal ke format yang lebih readable
-const formattedDate = targetDate.toLocaleDateString('id-ID', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
+const notif = ref({
+    message: "",
+    status: true,
+    id: 0
 });
+const message = ref('')
+const isLoading = ref(false)
+const errorMessage = ref('')
+const isSent = ref(false)
 
-// Fungsi untuk menutup modal
-const closeModal = () => {
-    showModal.value = false;
-};
+const names = [
+    { id: '6282362052767@s.whatsapp.net', label: 'Bastian' },
+    { id: '6288806539990@s.whatsapp.net', label: 'Naufal' },
+    { id: '6282283585589@s.whatsapp.net', label: 'Zahra' },
+    { id: '62895603792033@s.whatsapp.net', label: 'Alif' },
+    { id: '6281261309525@s.whatsapp.net', label: 'Adrian' },
+    { id: '6281235616582@s.whatsapp.net', label: 'Alamsyah' },
+    { id: '628983704948@s.whatsapp.net', label: 'Andre' },
+    { id: '6285182954744@s.whatsapp.net', label: 'Anisa' },
+    { id: '6282285455631@s.whatsapp.net', label: 'Dwiky' },
+    { id: '6282392636883@s.whatsapp.net', label: 'Elbryan' },
+    { id: '6281379406190@s.whatsapp.net', label: 'Farisa' },
+    { id: '6281363494443@s.whatsapp.net', label: 'Gadiza' },
+    { id: '6281364591170@s.whatsapp.net', label: 'Gisella' },
+    { id: '6282271287753@s.whatsapp.net', label: 'Marwan' },
+    { id: '6282384848815@s.whatsapp.net', label: 'Auriel' },
+    { id: '6282388216902@s.whatsapp.net', label: 'Putri' },
+    { id: '6282392299581@s.whatsapp.net', label: 'Rafa' },
+    { id: '6289636951323@s.whatsapp.net', label: 'Rafif' },
+    { id: '6282286430352@s.whatsapp.net', label: 'Raymond' },
+    { id: '628994857150@s.whatsapp.net', label: 'Rio' },
+    { id: '6282268660185@s.whatsapp.net', label: 'Rivaldo' },
+    { id: '6287878551249@s.whatsapp.net', label: 'Suci' },
+    { id: '6281364650118@s.whatsapp.net', label: 'Syahriandi' },
+    { id: '6282172300825@s.whatsapp.net', label: 'Zetta' },
+    { id: '6287794519131@s.whatsapp.net', label: 'Zhari' },
+    { id: '6281993151267@s.whatsapp.net', label: 'Kristiani' },
+]
+
+const animateCount = () => {
+    const step = Math.ceil(targetCount.value / 100)
+    const interval = setInterval(() => {
+        if (currentCount.value < targetCount.value) {
+            currentCount.value += step
+        } else {
+            currentCount.value = targetCount.value
+            clearInterval(interval)
+        }
+    }, 20)
+}
+
+const countConfess = async () => {
+    const response = await getSaran()
+    targetCount.value = response.countConfessTotal + 40
+    animateCount()
+}
+
+const sendConfess = async () => {
+    if (!selectedName.value || !message.value.trim()) {
+        errorMessage.value = 'Nama dan pesan tidak boleh kosong!'
+        notif.value = {
+            message: "Nama dan pesan tidak boleh kosong!",
+            status: false,
+            id: Date.now()
+        }
+        return
+    }
+
+    isLoading.value = true
+    errorMessage.value = ''
+
+    try {
+        const result = await kirimConfess(selectedName.value.id, message.value) // pakai .id untuk ID WhatsApp
+        if (result.status === 200) {
+            notif.value = {
+                message: result.message,
+                status: true,
+                id: Date.now()
+            }
+            isSent.value = true
+            message.value = ''
+            selectedName.value = null
+            countConfess()
+        } else {
+          notif.value = {
+                message: result.message,
+                status: false,
+                id: Date.now()
+            }
+        }
+    } catch (e) {
+        errorMessage.value = 'Gagal mengirim. Coba lagi.'
+        notif.value = {
+            message: "Gagal Mengirim, Silahkan Hubungi Developer untk Mengatasi ini",
+            status: false,
+            id: Date.now()
+        }
+    } finally {
+        isLoading.value = false
+        setTimeout(() => isSent.value = false, 3000)
+    }
+
+}
+
+onMounted(() => {
+    countConfess()
+})
 </script>
 
 <template>
-    <!-- Halaman Utama -->
-    <section class="min-h-screen bg-gray-50 flex flex-col justify-center items-center px-6 py-16">
-        <div class="max-w-3xl w-full text-center space-y-8">
-            <!-- Icon -->
-            <div class="mb-8">
-                <div class="mx-auto h-20 w-20 bg-blue-50 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-                </div>
+    <Notif :notif="notif" />
+    <section class="px-4 py-6 max-w-xl mx-auto pb-60">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-gray-800">Confess ke IF D Class yukk 💌</h1>
+            <h2 class="text-7xl font-extrabold text-green-500 mt-4">{{ currentCount }}</h2>
+            <p class="text-gray-500">Total Confess yang sudah dikirim</p>
+        </div>
+    
+        <div class="bg-white shadow-md rounded-lg p-6 space-y-6 transition-all duration-300 border border-gray-200">
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Pilih Nama</label>
+                <Multiselect v-model="selectedName" :options="names" :searchable="true" :close-on-select="true" :clear-on-select="false" :preserve-search="true" placeholder="Ketik nama untuk cari dan pilih..." label="label" track-by="id" class="multiselect-custom" />
             </div>
     
-            <!-- Heading -->
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">
-                Coming Soon
-            </h1>
-    
-            <!-- Subheading -->
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                Fitur dalam proses pengembangan
-            </p>
-    
-            <!-- Launch Date -->
-            <div class="mt-8">
-                <p class="text-lg text-gray-700">
-                    kemungkinan selesai: <span class="font-semibold">{{ formattedDate }}</span>
-                </p>
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Pesan</label>
+                <textarea v-model="message" rows="5" placeholder="Tulis isi confessmu..." class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300"></textarea>
             </div>
     
-            <!-- Divider -->
-            <div class="w-24 h-1 bg-blue-500 mx-auto my-8"></div>
+            <div v-if="errorMessage" class="text-red-600 text-sm">{{ errorMessage }}</div>
+            <div v-if="isSent" class="text-green-600 font-semibold">Berhasil dikirim! 🎉</div>
     
-    
+            <button @click="sendConfess" :disabled="isLoading" class="w-full bg-gradient-to-r from-green-400 to-blue-500 text-white py-2 px-4 rounded-md hover:opacity-90 transition-all duration-200">
+            {{ isLoading ? 'Mengirim...' : 'Kirim Confess Sekarang' }}
+          </button>
+        </div>
+        <div class="text-slate-500 mt-5 space-y-2">
+          <h3 class="text-2xl">Notes:</h3>
+          <p>* Confess ini bersifat <b>Anonim</b> dan tidak dapat dilihat oleh siapapun pengirimnya.</p>
+          <p>* Penerima pesan akan dapat melihat notifikasi realtime lewat whatsapp</p>
+          <p>* Pengirim Dilarang Menggunakan Kata kata kasar dan tidak sopan.</p>
         </div>
     </section>
-    
-    <!-- Modal Popup -->
-    <div v-if="showModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative animate-fade-in">
-            <!-- Close Button -->
-            <button @click="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-    
-            <!-- Modal Content -->
-            <div class="text-center">
-                <div class="mx-auto h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-                </div>
-    
-                <h3 class="text-xl font-bold text-gray-800 mb-2">maintain</h3>
-                <p class="text-gray-600 mb-6">Sedang dalam proses pengerjaan</p>
-                <button @click="closeModal" class="flex-1 bg-blue-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
-                OK LEEE
-              </button>
-            </div>
-        </div>
-    </div>
 </template>
 
 <style scoped>
-.animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
-}
+/* Optional: styling tambahan multiselect */
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.multiselect-custom ::v-deep .multiselect {
+    min-height: 48px;
 }
 </style>

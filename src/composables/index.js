@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'https://8da6b97b0da6b2c4373f331d8a4be5a1.serveo.net'
+const url = 'https://8ea17ad201d1be228967e1bbc7be0582.serveo.net'
 
 export async function getStat() {
     try {
@@ -54,6 +54,25 @@ export async function broadcast(tujuan, pesan) {
         return error
     }
 }
-
+export async function kirimConfess(id, pesan){
+    try {
+      const dibuat = new Date()
+      const response = await axios.post(`${url}/api/confess`, {
+        id_users: id,
+        pesan: pesan,
+        dibuat: dibuat
+      });
+      return {
+        status: response.status,
+        message: response.data.message
+      }
+    } catch (error) {
+      return {
+        status: error.response?.status || 500,
+        message: error.response?.data?.message || "Gagal Mengirim Confess"
+      }
+    }
+  }
+  
 
 
