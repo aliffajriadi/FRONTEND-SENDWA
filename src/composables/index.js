@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'https://8ea17ad201d1be228967e1bbc7be0582.serveo.net'
+const url = 'https://3ff55205ff5d5e2800ad2b3c5b013c47.serveo.net'
 
 export async function getStat() {
     try {
