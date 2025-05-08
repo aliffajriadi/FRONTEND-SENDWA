@@ -129,12 +129,12 @@ onMounted(() => {
     
         <div class="bg-white shadow-md rounded-lg p-6 space-y-6 transition-all duration-300 border border-gray-200">
             <div>
-                <label class="block text-gray-700 font-medium mb-1">Pilih Nama</label>
+                <label class="block text-gray-700 font-medium mb-1">Mau Confess ke siapa nichhh</label>
                 <Multiselect v-model="selectedName" :options="names" :searchable="true" :close-on-select="true" :clear-on-select="false" :preserve-search="true" placeholder="Ketik nama untuk cari dan pilih..." label="label" track-by="id" class="multiselect-custom" />
             </div>
     
             <div>
-                <label class="block text-gray-700 font-medium mb-1">Pesan</label>
+                <label class="block text-gray-700 font-medium mb-1">Pesan kmuu</label>
                 <textarea v-model="message" rows="5" placeholder="Tulis isi confessmu..." class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300"></textarea>
             </div>
     
