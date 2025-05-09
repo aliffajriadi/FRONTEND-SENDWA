@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'https://solid-pugs-pump.loca.lt'
+const url = ' https://2dbe-43-209-20-233.ngrok-free.app'
 
 export async function getStat() {
     try {
