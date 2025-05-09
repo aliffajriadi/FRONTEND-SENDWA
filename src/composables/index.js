@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = ' https://2dbe-43-209-20-233.ngrok-free.app'
+const url = 'https://5bf91751ffeb0a71042ad5bf59a5939f.serveo.net'
 
 export async function getStat() {
     try {
