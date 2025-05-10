@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'https://66e0afd7e786c7c71a635a7f47608ec5.serveo.net'
+const url = 'https://cap-scanners-mtv-rice.trycloudflare.com'
 
 export async function getStat() {
     try {
