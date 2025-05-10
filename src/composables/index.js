@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'https://5bf91751ffeb0a71042ad5bf59a5939f.serveo.net'
+const url = 'https://8d9e0587e2b9a613419085575e8412ab.serveo.net'
 
 export async function getStat() {
     try {
@@ -14,7 +14,7 @@ export async function kirimPesan(nomor, pesan) {
     try {
         const response = await axios.post(`${url}/api/kirim`, {
             nomor: nomor,
-            pesan: pesan
+            pesan: `Kirim Pesan Langsung:\n\n${pesan}`
         });
         return response.message
     } catch (error) {
