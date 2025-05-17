@@ -109,6 +109,7 @@ onMounted(() => {
                         </span>
                     </p>
                     <p>Total Penggunaan Applikasi : <span class="text-white font-semibold px-2 py-1 rounded-md bg-green-500">{{ countConfess + countSaran + 90 }}</span></p>
+                    <p class="mt-1">Have Question? CP Developer <br> <span class="font-semibold">62895603792033 / Alif</span></p>
                 </div>
             </div>
             <div class="flex flex-wrap space-x-4 mt-4 md:mt-0">

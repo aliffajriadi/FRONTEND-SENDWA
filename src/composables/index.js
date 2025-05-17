@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'http://8.215.49.8:3000';
+const url = 'https://api.aliffajriadi.my.id';
 
 export async function getStat() {
     try {
