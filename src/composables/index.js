@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'https://cap-scanners-mtv-rice.trycloudflare.com'
+const url = 'http://8.215.49.8:3000';
 
 export async function getStat() {
     try {
