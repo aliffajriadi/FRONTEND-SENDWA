@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'https://api.aliffajriadi.my.id';
+const url = 'https://api.aliffajriadi.my.id/botwa';
 
 export async function getStat() {
     try {
