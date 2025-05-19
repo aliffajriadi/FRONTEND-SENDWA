@@ -133,7 +133,7 @@ const closeWarningModal = () => {
     <Notif :notif="notif" />
     
     <!-- Form Broadcast -->
-    <div class="broadcast-container slide-in bg-white shadow-lg rounded-lg p-6 transition-all duration-300" :class="{ 'shake': formShake }">
+    <div class="broadcast-container slide-in bg-white shadow-lg pb-32 rounded-lg p-8 transition-all duration-300" :class="{ 'shake': formShake }">
         <div class="flex items-center mb-6">
             <div class="bg-gradient-to-r from-green-400 to-blue-500 p-2 rounded-full mr-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -242,6 +242,7 @@ const closeWarningModal = () => {
                 </button>
             </div>
         </div>
+        <p class="mt-5">Punya Pertanyaan seputar applikasi? <br> CP Developer <br> <span class="font-semibold">62895603792033 => Alif</span> <br> <span class="font-semibold">6289636951323 => Rafif</span></p>
     </div>
 
     <!-- Modal Peringatan -->
