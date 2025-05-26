@@ -24,6 +24,7 @@ const groups = [
     { id: "120363319945608143@g.us", name: "Grup Kelas IF 2D Pagi" },
     { id: "120363324737971526@g.us", name: "Grup Kelas IF 2D COWOK" },
     { id: "120363030494134340@g.us", name: "DEMO TESTING" },
+    { id: "120363319945608143@g.us", name: "DEMO TESTING 1" },
 ];
 
 // Modal peringatan state
